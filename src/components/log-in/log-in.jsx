@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function SignUp() {
+export default function Login() {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [errMsg, setErrMsg] = useState();
@@ -11,9 +11,8 @@ export default function SignUp() {
 
     const newUser = {
       ...user,
-      username: document.querySelector("#username").value,
       password: document.querySelector("#password").value,
-      passwordConfirm: document.querySelector("#passwordConfirm").value,
+      username: document.querySelector("#username").value,
     };
 
     if (errMsg !== null) {
@@ -27,47 +26,42 @@ export default function SignUp() {
     e.preventDefault();
     try {
       const json = await fetch(
-        `http://${import.meta.env.VITE_BACKEND}/users/signup`,
+        `http://${import.meta.env.VITE_BACKEND}/users/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(user),
         }
       );
-
       const res = await json.json();
-      if (Array.isArray(res)) {
-        console.log(res[0].msg);
-        setErrMsg(res[0]);
+
+      if (typeof res === "string") {
+        console.log(res);
+        setErrMsg(res);
       } else {
-        navigate("/login");
+        localStorage.setItem("token", JSON.stringify(res.token));
+        navigate("/");
       }
     } catch (err) {
       console.log(err);
     }
   }
+
   return (
     <>
       <form onSubmit={formSubmit}>
         <label htmlFor="username">Username</label>
         <input
           type="text"
-          id="username"
           name="username"
+          id="username"
           onChange={formUpdate}
         />
         <label htmlFor="password">Password</label>
         <input
           type="password"
-          id="password"
           name="password"
-          onChange={formUpdate}
-        />
-        <label htmlFor="passwordConfirm">Password Confirm</label>
-        <input
-          type="password"
-          id="passwordConfirm"
-          name="passwordConfirm"
+          id="password"
           onChange={formUpdate}
         />
         <button type="submit">Submit</button>
