@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { userLogged } from "./components/helperFunctions";
+import { userConversations, userLogged } from "./components/helperFunctions";
 import Home from "./components/home/home";
 import SignUp from "./components/sign-up/sign-up";
 import Login from "./components/log-in/log-in";
@@ -10,7 +10,7 @@ export default function Router() {
       path: "/",
       element: <Home />,
       loader: async () => {
-        const data = await userLogged();
+        const data = await Promise.all([userLogged(), userConversations()]);
         return data;
       },
     },
