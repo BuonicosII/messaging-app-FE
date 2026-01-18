@@ -27,6 +27,7 @@ export default function Home() {
             </div>
           );
         })}
+        <br></br>
         <CurrentConversation currentConversationId={currentConversationId} />
       </>
     );
