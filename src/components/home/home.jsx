@@ -1,10 +1,13 @@
 import { useLoaderData, Link } from "react-router-dom";
 import { useState } from "react";
+import CurrentConversation from "../currentConversation/currentConversation";
 
 export default function Home() {
   const user = useLoaderData()[0];
   const userConversations = useLoaderData()[1];
-  const [currentConversation, setCurrentConversation] = useState(null);
+  const [currentConversationId, setCurrentConversationId] = useState(
+    userConversations[0].id
+  );
 
   if (user) {
     return (
@@ -14,8 +17,9 @@ export default function Home() {
           return (
             <div
               onClick={() => {
-                setCurrentConversation(conversation.id);
+                setCurrentConversationId(conversation.id);
               }}
+              key={conversation.id}
             >
               {conversation.name ??
                 conversation.owners.filter((owner) => owner !== user.id)[0]
@@ -23,6 +27,7 @@ export default function Home() {
             </div>
           );
         })}
+        <CurrentConversation currentConversationId={currentConversationId} />
       </>
     );
   } else {
