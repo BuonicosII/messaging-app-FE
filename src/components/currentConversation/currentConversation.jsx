@@ -4,6 +4,7 @@ export default function CurrentConversation({ currentConversationId }) {
   const [conversationMessages, setConversationMessages] = useState([]);
   const [errMsg, setErrMsg] = useState();
   const [message, setMessage] = useState();
+  const [messageId, setmessageId] = useState();
 
   useEffect(() => {
     (async () => {
@@ -30,9 +31,7 @@ export default function CurrentConversation({ currentConversationId }) {
     e.preventDefault();
 
     const newMessage = {
-      ...message,
       content: document.querySelector("#content").value,
-      conversation_id: document.querySelector("#conversation_id").value,
     };
 
     if (errMsg !== null) {
@@ -45,16 +44,31 @@ export default function CurrentConversation({ currentConversationId }) {
   async function formSubmit(e) {
     e.preventDefault();
     try {
-      await fetch(`http://${import.meta.env.VITE_BACKEND}/messages/create`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-        },
-        body: JSON.stringify(message),
-      });
+      await fetch(
+        messageId
+          ? `http://${import.meta.env.VITE_BACKEND}/messages/update`
+          : `http://${import.meta.env.VITE_BACKEND}/messages/create`,
+        {
+          method: messageId ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("token")
+            )}`,
+          },
+          body: JSON.stringify(
+            messageId
+              ? { ...message, message_id: messageId }
+              : { ...message, conversation_id: currentConversationId }
+          ),
+        }
+      );
 
       setMessage(null);
+
+      if (messageId) {
+        setmessageId(null);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -67,6 +81,25 @@ export default function CurrentConversation({ currentConversationId }) {
           <div key={message.id}>
             {message.user.username}
             {message.content}
+            {messageId === message.id ? (
+              <button
+                onClick={() => {
+                  setmessageId(null);
+                  setMessage(null);
+                }}
+              >
+                Close
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  setmessageId(message.id);
+                  setMessage({ content: message.content });
+                }}
+              >
+                Edit
+              </button>
+            )}
           </div>
         );
       })}
@@ -78,11 +111,6 @@ export default function CurrentConversation({ currentConversationId }) {
           onChange={formUpdate}
           value={message ? message.content : ""}
         ></textarea>
-        <input
-          type="hidden"
-          id="conversation_id"
-          value={currentConversationId}
-        />
         <button type="submit">Submit</button>
       </form>
     </>
