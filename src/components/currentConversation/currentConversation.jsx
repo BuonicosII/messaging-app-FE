@@ -5,6 +5,7 @@ export default function CurrentConversation({ currentConversationId }) {
   const [errMsg, setErrMsg] = useState();
   const [message, setMessage] = useState();
   const [messageId, setmessageId] = useState();
+  const [deleteId, setDeleteId] = useState();
 
   useEffect(() => {
     (async () => {
@@ -39,6 +40,23 @@ export default function CurrentConversation({ currentConversationId }) {
     }
 
     setMessage(newMessage);
+  }
+
+  async function deleteMessage() {
+    try {
+      await fetch(`http://${import.meta.env.VITE_BACKEND}/messages/delete`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        },
+        body: JSON.stringify({ message_id: deleteId }),
+      });
+
+      setDeleteId(null);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async function formSubmit(e) {
@@ -91,18 +109,43 @@ export default function CurrentConversation({ currentConversationId }) {
                 Close
               </button>
             ) : (
-              <button
-                onClick={() => {
-                  setmessageId(message.id);
-                  setMessage({ content: message.content });
-                }}
-              >
-                Edit
-              </button>
+              <>
+                <button
+                  onClick={() => {
+                    if (!deleteId) {
+                      setmessageId(message.id);
+                      setMessage({ content: message.content });
+                    }
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => {
+                    if (!messageId || !deleteId) {
+                      setDeleteId(message.id);
+                    }
+                  }}
+                >
+                  Delete
+                </button>
+              </>
             )}
           </div>
         );
       })}
+      {deleteId && (
+        <div>
+          <button
+            onClick={() => {
+              setDeleteId(null);
+            }}
+          >
+            Cancel
+          </button>
+          <button onClick={deleteMessage}>Delete</button>
+        </div>
+      )}
       <br></br>
       <form onSubmit={formSubmit}>
         <textarea
