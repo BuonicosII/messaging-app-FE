@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import style from "./currentConversation.module.css";
 
 export default function CurrentConversation({ currentConversationId }) {
   const [conversationMessages, setConversationMessages] = useState([]);
@@ -93,7 +94,7 @@ export default function CurrentConversation({ currentConversationId }) {
   }
 
   return (
-    <>
+    <div id={style.rightpanel}>
       {conversationMessages.map((message) => {
         return (
           <div key={message.id}>
@@ -156,6 +157,6 @@ export default function CurrentConversation({ currentConversationId }) {
         ></textarea>
         <button type="submit">Submit</button>
       </form>
-    </>
+    </div>
   );
 }

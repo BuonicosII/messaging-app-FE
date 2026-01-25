@@ -1,0 +1,25 @@
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  flex-grow: 1;
+}
+
+#leftpanel {
+  display: flex;
+  flex-direction: column;
+  grid-area: 1 / 1 / 2 / 2;
+  border-right: 1px solid gray;
+}
+
+.conversationDiv {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+  border-bottom: 1px solid gray;
+  box-sizing: border-box;
+}
+
+.conversationDiv:hover {
+  cursor: pointer;
+}

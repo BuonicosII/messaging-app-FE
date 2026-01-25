@@ -2,6 +2,7 @@ import { useLoaderData, Link } from "react-router-dom";
 import { useState } from "react";
 import CurrentConversation from "../currentConversation/currentConversation";
 import Header from "../headers/header";
+import style from "./home.module.css";
 
 export default function Home() {
   const user = useLoaderData()[0];
@@ -14,22 +15,26 @@ export default function Home() {
     return (
       <>
         <Header user={user} />
-        {userConversations.map((conversation) => {
-          return (
-            <div
-              onClick={() => {
-                setCurrentConversationId(conversation.id);
-              }}
-              key={conversation.id}
-            >
-              {conversation.name ??
-                conversation.owners.filter((owner) => owner !== user.id)[0]
-                  .username}
-            </div>
-          );
-        })}
-        <br></br>
-        <CurrentConversation currentConversationId={currentConversationId} />
+        <main>
+          <div id={style.leftpanel}>
+            {userConversations.map((conversation) => {
+              return (
+                <div
+                  className={style.conversationDiv}
+                  onClick={() => {
+                    setCurrentConversationId(conversation.id);
+                  }}
+                  key={conversation.id}
+                >
+                  {conversation.name ??
+                    conversation.owners.filter((owner) => owner !== user.id)[0]
+                      .username}
+                </div>
+              );
+            })}
+          </div>
+          <CurrentConversation currentConversationId={currentConversationId} />
+        </main>
       </>
     );
   } else {
