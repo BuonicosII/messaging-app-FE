@@ -1,6 +1,7 @@
 import { useLoaderData, Link } from "react-router-dom";
 import { useState } from "react";
 import CurrentConversation from "../currentConversation/currentConversation";
+import Header from "../headers/header";
 
 export default function Home() {
   const user = useLoaderData()[0];
@@ -12,7 +13,7 @@ export default function Home() {
   if (user) {
     return (
       <>
-        Hi {user.username}
+        <Header user={user} />
         {userConversations.map((conversation) => {
           return (
             <div
