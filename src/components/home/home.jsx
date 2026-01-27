@@ -8,7 +8,7 @@ export default function Home() {
   const user = useLoaderData()[0];
   const userConversations = useLoaderData()[1];
   const [currentConversationId, setCurrentConversationId] = useState(
-    userConversations[0].id
+    userConversations[0].conversationId
   );
 
   if (user) {
@@ -22,13 +22,11 @@ export default function Home() {
                 <div
                   className={style.conversationDiv}
                   onClick={() => {
-                    setCurrentConversationId(conversation.id);
+                    setCurrentConversationId(conversation.conversationId);
                   }}
                   key={conversation.id}
                 >
-                  {conversation.name ??
-                    conversation.owners.filter((owner) => owner !== user.id)[0]
-                      .username}
+                  {conversation.name ?? conversation.username}
                 </div>
               );
             })}

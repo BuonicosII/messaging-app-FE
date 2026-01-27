@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import style from "./currentConversation.module.css";
 
 export default function CurrentConversation({ currentConversationId }) {
@@ -7,6 +8,7 @@ export default function CurrentConversation({ currentConversationId }) {
   const [message, setMessage] = useState();
   const [messageId, setmessageId] = useState();
   const [deleteId, setDeleteId] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -88,6 +90,8 @@ export default function CurrentConversation({ currentConversationId }) {
       if (messageId) {
         setmessageId(null);
       }
+
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
