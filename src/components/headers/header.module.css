@@ -1,11 +1,18 @@
 header {
   display: flex;
   align-items: center;
-  justify-content: right;
+  justify-content: space-between;
   padding: 1rem;
   background-color: rgb(0, 102, 255);
 }
 
 svg:hover {
   cursor: pointer;
+}
+
+#userInfo img {
+  height: 100%;
+  max-height: 36px;
+  width: auto;
+  border-radius: 50%;
 }
