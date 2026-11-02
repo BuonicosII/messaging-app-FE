@@ -10,9 +10,20 @@ svg:hover {
   cursor: pointer;
 }
 
+#userInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
 #userInfo img {
   height: 100%;
   max-height: 36px;
   width: auto;
   border-radius: 50%;
+}
+
+#userInfo {
+  color: white;
 }
