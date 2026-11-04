@@ -6,6 +6,10 @@ header {
   background-color: rgb(0, 102, 255);
 }
 
+a {
+  text-decoration: none;
+}
+
 svg:hover {
   cursor: pointer;
 }

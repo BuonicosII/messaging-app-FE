@@ -3,6 +3,7 @@ import { userConversations, userLogged } from "./components/helperFunctions";
 import Home from "./components/home/home";
 import SignUp from "./components/sign-up/sign-up";
 import Login from "./components/log-in/log-in";
+import UserProfile from "./components/userProfile/userProfile";
 
 export default function Router() {
   const router = createBrowserRouter([
@@ -11,6 +12,14 @@ export default function Router() {
       element: <Home />,
       loader: async () => {
         const data = await Promise.all([userLogged(), userConversations()]);
+        return data;
+      },
+    },
+    {
+      path: "/profile",
+      element: <UserProfile />,
+      loader: async () => {
+        const data = await userLogged();
         return data;
       },
     },

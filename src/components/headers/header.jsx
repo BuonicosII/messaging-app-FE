@@ -1,4 +1,5 @@
 import style from "./header.module.css";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 
 export default function Header({ user }) {
@@ -6,10 +7,12 @@ export default function Header({ user }) {
   return (
     <>
       <header>
-        <div id={style.userInfo}>
-          <img src={user.avatar} alt="" />
-          <span>{user.username}</span>
-        </div>
+        <Link to="/profile">
+          <div id={style.userInfo}>
+            <img src={user.avatar} alt="" />
+            <span>{user.username}</span>
+          </div>
+        </Link>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="36"

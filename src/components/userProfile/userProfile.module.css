@@ -1,0 +1,24 @@
+#userInfoWrapper {
+  grid-area: 1 / 2 / 2 / 4;
+  display: flex;
+  justify-content: center;
+  padding: 68px;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: x-large;
+}
+
+#userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 68px;
+}
+
+#avatarBig {
+  height: 200px;
+  width: auto;
+  border-radius: 50%;
+}
