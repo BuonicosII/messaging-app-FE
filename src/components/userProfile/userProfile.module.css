@@ -22,3 +22,13 @@ h1 {
   width: auto;
   border-radius: 50%;
 }
+
+.editableField {
+  position: relative;
+}
+
+.svgPen {
+  position: absolute;
+  bottom: 0;
+  right: -24px;
+}
