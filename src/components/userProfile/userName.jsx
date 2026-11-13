@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import style from "./userProfile.module.css";
 import PropTypes from "prop-types";
 
@@ -12,6 +13,7 @@ export default function UserName({
   //username field edit update and submit states
   const [userName, setUserName] = useState(user.username);
   const [userNameErrMsg, setuserNameErrMsg] = useState();
+  const navigate = useNavigate();
 
   function usernameUpdate(e) {
     e.preventDefault();
@@ -21,6 +23,38 @@ export default function UserName({
     }
 
     setUserName(document.querySelector("#username").value);
+  }
+
+  async function usernameSubmit(e) {
+    e.preventDefault();
+
+    if (user.username === document.querySelector("#username").value) {
+      setEditUsrnm(false);
+      setEditAvtr(false);
+      setEditPwd(false);
+    } else {
+      try {
+        await fetch(`http://${import.meta.env.VITE_BACKEND}/users/username`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("token"),
+            )}`,
+          },
+          body: JSON.stringify({
+            username: document.querySelector("#username").value,
+          }),
+        });
+        setEditUsrnm(false);
+        setEditAvtr(false);
+        setEditPwd(false);
+
+        navigate("/profile");
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   return (
@@ -60,6 +94,7 @@ export default function UserName({
             width="1em"
             height="1em"
             viewBox="0 0 24 24"
+            onClick={usernameSubmit}
           >
             <path d="M0 0h24v24H0z" fill="none" />
             <g
