@@ -8,7 +8,7 @@ export default function Home() {
   const user = useLoaderData()[0];
   const userConversations = useLoaderData()[1];
   const [currentConversationId, setCurrentConversationId] = useState(
-    userConversations[0].conversationId
+    userConversations?.[0].conversationId,
   );
 
   if (user) {
